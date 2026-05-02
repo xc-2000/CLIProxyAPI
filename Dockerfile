@@ -25,7 +25,8 @@ COPY --from=builder ./app/CLIProxyAPI /CLIProxyAPI/CLIProxyAPI
 COPY config.example.yaml /CLIProxyAPI/config.example.yaml
 COPY railway-entrypoint.sh /CLIProxyAPI/railway-entrypoint.sh
 
-RUN chmod +x /CLIProxyAPI/railway-entrypoint.sh
+RUN chmod +x /CLIProxyAPI/railway-entrypoint.sh && \
+    cp /CLIProxyAPI/config.example.yaml /CLIProxyAPI/config.yaml
 
 WORKDIR /CLIProxyAPI
 
@@ -35,4 +36,4 @@ ENV TZ=Asia/Shanghai
 
 RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && echo "${TZ}" > /etc/timezone
 
-CMD ["./CLIProxyAPI"]
+CMD ["./railway-entrypoint.sh"]
