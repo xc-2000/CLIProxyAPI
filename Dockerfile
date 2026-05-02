@@ -23,6 +23,9 @@ RUN mkdir /CLIProxyAPI
 COPY --from=builder ./app/CLIProxyAPI /CLIProxyAPI/CLIProxyAPI
 
 COPY config.example.yaml /CLIProxyAPI/config.example.yaml
+COPY railway-entrypoint.sh /CLIProxyAPI/railway-entrypoint.sh
+
+RUN chmod +x /CLIProxyAPI/railway-entrypoint.sh
 
 WORKDIR /CLIProxyAPI
 
