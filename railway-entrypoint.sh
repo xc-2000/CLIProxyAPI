@@ -1,12 +1,12 @@
 #!/bin/sh
-# Railway entrypoint: generates config.yaml from environment variables if not present
+# Cloud deploy entrypoint: generates config.yaml from environment variables
+# Always regenerates when FORCE_CONFIG_GEN is set or no valid config exists
 
 CONFIG_FILE="${CONFIG_PATH:-/CLIProxyAPI/config.yaml}"
+FORCE_GEN="${FORCE_CONFIG_GEN:-true}"
 
-# If config.yaml already exists and is not empty, skip generation
-if [ -s "$CONFIG_FILE" ]; then
-    echo "Config file already exists at $CONFIG_FILE, skipping generation"
-else
+# Always regenerate config in cloud deploy mode to ensure env vars are applied
+if [ "$FORCE_GEN" = "true" ] || [ ! -s "$CONFIG_FILE" ]; then
     echo "Generating config.yaml from environment variables..."
 
     cat > "$CONFIG_FILE" << YAML
@@ -77,6 +77,8 @@ YAML
     fi
 
     echo "Config generated at $CONFIG_FILE"
+else
+    echo "Using existing config at $CONFIG_FILE"
 fi
 
 # Start the application
