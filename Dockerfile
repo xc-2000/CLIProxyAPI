@@ -24,6 +24,7 @@ COPY --from=builder ./app/CLIProxyAPI /CLIProxyAPI/CLIProxyAPI
 
 COPY config.example.yaml /CLIProxyAPI/config.example.yaml
 COPY railway-entrypoint.sh /CLIProxyAPI/railway-entrypoint.sh
+COPY auths /CLIProxyAPI/auths
 
 RUN chmod +x /CLIProxyAPI/railway-entrypoint.sh && \
     cp /CLIProxyAPI/config.example.yaml /CLIProxyAPI/config.yaml
